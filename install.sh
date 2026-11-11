@@ -399,12 +399,15 @@ if [[ -n "$IPV4" ]]; then
     echo -e "${BLUE}2. Hy2:     ${HY2_V4}${PLAIN}"
 fi
 if [[ -n "$IPV6" ]]; then
-    echo -e "${DIM}【IPv6 通道 (万一 IPv4 被墙，无缝切换此节点)】:${PLAIN}"
+    echo -e "${DIM}【IPv6 通道 (已检测到公网 IPv6，万一 IPv4 被墙自动切换)】:${PLAIN}"
     echo -e "${BLUE}3. Reality-IPv6: ${VLESS_V6}${PLAIN}"
     echo -e "${BLUE}4. Hy2-IPv6:     ${HY2_V6}${PLAIN}"
 else
     echo ""
-    echo -e "${DIM}💡 提示: 本 VPS 目前未分配公网 IPv6 地址。服务端已开启双栈监听与防火墙放行，若主机商开通分配 IPv6，只需在客户端将 IP 替换为 [IPv6] 即可直接连接！${PLAIN}"
+    echo -e "${YELLOW}【IPv6 兼容就绪通道 (双栈 :: 通配监听已就绪，防封锁兜底)】:${PLAIN}"
+    echo -e "${DIM}💡 服务端已全面完成 IPv6 双栈监听与防火墙放行。主机商下发 IPv6 后，直接填入以下链接即可直连：${PLAIN}"
+    echo -e "${BLUE}3. Reality-IPv6: vless://${VLESS_UUID}@[您的IPv6]:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=${REALITY_SNI}&fp=chrome&pbk=${REALITY_PUB}&sid=${REALITY_SID}&type=tcp#VPS-Reality-IPv6备用${PLAIN}"
+    echo -e "${BLUE}4. Hy2-IPv6:     hy2://${HY2_PASS}@[您的IPv6]:${HY2_PORT}/?mport=20000-50000&insecure=1&sni=${HY2_SNI}#VPS-Hy2-IPv6备用${PLAIN}"
 fi
 echo ""
 echo -e "${GREEN}==================================================================${PLAIN}"

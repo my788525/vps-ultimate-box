@@ -33,12 +33,12 @@
 在任何崭新的 **Debian 11/12** 或 **Ubuntu 20.04/22.04/24.04** VPS 上，以 `root` 权限执行以下单行命令即可：
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/vps-ultimate-box/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/my788525/vps-ultimate-box/main/install.sh)
 ```
 
 > 💡 **提示**：请将上述命令中的 `YOUR_GITHUB_USERNAME` 替换为您实际 Fork 或推送的 GitHub 用户名。若直接使用本地脚本，可在 VPS 执行：
 > ```bash
-> curl -O https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/vps-ultimate-box/main/install.sh && chmod +x install.sh && ./install.sh
+> curl -O https://raw.githubusercontent.com/my788525/vps-ultimate-box/main/install.sh && chmod +x install.sh && ./install.sh
 > ```
 
 ---
