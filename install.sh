@@ -76,17 +76,24 @@ cat << 'EOF' > /etc/sysctl.d/99-vps-ultimate.conf
 net.core.default_qdisc = fq
 net.ipv4.tcp_congestion_control = bbr
 
-# 提升接收/发送缓冲区到 16MB，消除高延迟长肥管道断崖式降速
-net.core.rmem_max = 16777216
-net.core.wmem_max = 16777216
-net.ipv4.tcp_rmem = 4096 87380 16777216
-net.ipv4.tcp_wmem = 4096 65536 16777216
+# 提升接收/发送缓冲区到 32MB，消除高延迟与丢包链路断崖式降速
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+net.core.rmem_default = 2097152
+net.core.wmem_default = 2097152
+net.ipv4.tcp_rmem = 4096 87380 33554432
+net.ipv4.tcp_wmem = 4096 65536 33554432
+
+# UDP 专用大缓存 (让 Hysteria 2 在 50%-70% 晚高峰丢包时不被内核丢弃)
+net.ipv4.udp_mem = 65536 131072 262144
+net.ipv4.udp_rmem_min = 16384
+net.ipv4.udp_wmem_min = 16384
 
 # 系统连接队列与高并发优化
 fs.file-max = 1000000
-net.core.somaxconn = 32768
-net.ipv4.tcp_max_syn_backlog = 16384
-net.core.netdev_max_backlog = 16384
+net.core.somaxconn = 65535
+net.ipv4.tcp_max_syn_backlog = 32768
+net.core.netdev_max_backlog = 32768
 
 # 开启 TCP Fast Open (减少 1 次 RTT 握手延时)
 net.ipv4.tcp_fastopen = 3
@@ -246,6 +253,20 @@ tls:
 auth:
   type: password
   password: ${HY2_PASS}
+
+bandwidth:
+  up: 100 mbps
+  down: 500 mbps
+
+ignoreClientBandwidth: false
+
+quic:
+  initStreamReceiveWindow: 8388608
+  maxStreamReceiveWindow: 16777216
+  initConnReceiveWindow: 16777216
+  maxConnReceiveWindow: 33554432
+  maxIdleTimeout: 30s
+  keepAlivePeriod: 10s
 
 masquerade:
   type: proxy
