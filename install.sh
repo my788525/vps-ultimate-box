@@ -254,11 +254,8 @@ auth:
   type: password
   password: ${HY2_PASS}
 
-bandwidth:
-  up: 100 mbps
-  down: 500 mbps
-
-ignoreClientBandwidth: false
+# 启用自适应 QUIC BBR 拥塞控制，避免高丢包晚高峰触发运营商 UDP 黑洞
+ignoreClientBandwidth: true
 
 quic:
   initStreamReceiveWindow: 8388608
@@ -267,6 +264,7 @@ quic:
   maxConnReceiveWindow: 33554432
   maxIdleTimeout: 30s
   keepAlivePeriod: 10s
+  disablePathMTUDiscovery: false
 
 masquerade:
   type: proxy
