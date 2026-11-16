@@ -174,7 +174,15 @@ cat << EOF > /usr/local/etc/xray/config.json
           "shortIds": [
             "${REALITY_SID}"
           ]
+        },
+        "sockopt": {
+          "tcpFastOpen": true,
+          "tcpKeepAliveInterval": 15
         }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls", "quic"]
       }
     }
   ],
@@ -185,8 +193,42 @@ cat << EOF > /usr/local/etc/xray/config.json
       "settings": {
         "domainStrategy": "AsIs"
       }
+    },
+    {
+      "protocol": "freedom",
+      "tag": "tg-direct",
+      "settings": {
+        "domainStrategy": "UseIPv4"
+      },
+      "streamSettings": {
+        "sockopt": {
+          "tcpFastOpen": true,
+          "tcpKeepAliveInterval": 15,
+          "tcpCongestion": "bbr"
+        }
+      }
     }
   ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      {
+        "type": "field",
+        "ip": [
+          "149.154.160.0/20",
+          "91.108.4.0/22",
+          "91.108.8.0/22",
+          "91.108.12.0/22",
+          "91.108.16.0/22",
+          "91.108.20.0/22",
+          "91.108.56.0/22",
+          "91.105.192.0/23",
+          "185.76.151.0/24"
+        ],
+        "outboundTag": "tg-direct"
+      }
+    ]
+  },
   "dns": {
     "servers": [
       "1.1.1.1",
